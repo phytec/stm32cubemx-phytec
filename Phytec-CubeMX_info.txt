@@ -1,0 +1,144 @@
+Archive name:
+-------------
+PCM-068-CubeMX-V2.zip
+
+
+Date of creation:
+-----------------
+05.03.2021
+
+
+Archive content:
+----------------
+- STM32CubeMX project-files (.ioc) created with STM32CubeMX Version 6.1.1 => in directories "phyCORE-STM32MP1" and "phyCORE-STM32MP1_with_phyBOARD-Sargas"
+- Device Tree sources templates (.dts, .dtsi) based on BSP PD21.1.0 => in directory "DeviceTree_templates"
+
+
+Archive Purpose:
+----------------
+The intention of those STM32CubeMX project files is to give customers the ability to use STM32CubeMX for their custom-specific pinmux conceptions. Those projects also give the ability to use the tool for Software automatic code generation.
+
+The files contain the fixed pinmux, as well as clocks and DDR configurations specified by the Hardware:
+- phyCORE-STM32MP1 (PCM-068 - PCB 1534.1)
+- phyCORE-STM32MP1 (PCM-068 - PCB 1534.1) + phyBOARD-Sargas (PCM-939 - PCB 1517.2)
+
+
+Hardware declinations
+---------------------
+phyCORE-STM32MP1 (+ phyBOARD-Sargas) are declined in standard "machines" (SOM equipped with different STM32MP15 SoC product line and/or different FLASH memory):
+- phycore-stm32mp-2: phyCORE-STM32MP1+phyBOARD-Sargas, stm32mp157aac (@650Mhz MPU, 3D GPU), 1GiB RAM, 8GiB eMMC, 16MB QSPI NOR
+- phycore-stm32mp-3: phyCORE-STM32MP1+phyBOARD-Sargas, stm32mp157cac (@650Mhz MPU, 3D GPU), 1GiB RAM, 8GiB eMMC, 16MB QSPI NOR
+- phycore-stm32mp-4: phyCORE-STM32MP1+phyBOARD-Sargas, stm32mp157fac (@800Mhz MPU, 3D GPU), 1GiB RAM, 8GiB eMMC, 16MB QSPI NOR
+- phycore-stm32mp-5: phyCORE-STM32MP1+phyBOARD-Sargas, stm32mp153aac (@650Mhz MPU, no 3D GPU), 1GiB RAM, 8GiB eMMC
+- phycore-stm32mp-6: phyCORE-STM32MP1+phyBOARD-Sargas, stm32mp153aac (@650Mhz MPU, no 3D GPU), 512MB RAM, 512MB NAND
+- phycore-stm32mp-7: phyCORE-STM32mp1+phyBOARD-Sargas, stm32mp153aac (@650Mhz MPU, no 3D GPU), 512MB RAM, 128MB NAND
+
+Note: there is only one declination of the phyBOARD-Sargas. That's why, the machines differ only because of the phyCORE-STM32MP1 different declinations.
+
+
+Device Tree sources automatic generation and provided dts templates:
+--------------------------------------------------------------------
+The STM32CubeMX can be used to generated the Device Tree files (Cortex-A7) or STM32Cube HAL code (Cortex-M4) for each of the above machines.
+As the generated device tree sources (.dts) do not contain all the necessary device tree properties (dependent on BSP drivers), some manual code ("User code") needs to be added in specific sections of the generated files.
+Please refer to the BSP manual for more details: https://www.phytec.de/produkte/system-on-modules/phycore-stm32mp1/#downloads/ (BSP manual is in section "Software / Yocto + Linux BSP-Releases")
+
+To generate the "ready to build" Device Tree of the above machines (i.e ".dts" that can be directly build without any modifications), we provide device tree templates that already contain this "user code" that is added automatically to the generated dts files.
+
+To force STM32CubeMX to use those templates during the code generation, you must copy the provided DTS templates in the following directory of your CubeMX intsallation tool:
+"/db/templates/DeviceTree/dtsBoards/STM32MP1"
+
+=> Simply copy the content of "DeviceTree_templates" ("STM32MP15xx-PHYBOARD" and "STM32MP15xx-PHYCORE" directories) into this STM32CubeMX installation subdirectory.
+
+Notes:
+- The STM32CubeMX code generator will automatically make the link with the corresponding template using the SoC Model line (i.e "STM32MP15xx") and the "board" name paramater (set to "STM32MP15xx-PHYCORE" or "STM32MP15xx-PHYBOARD" in our .ioc project).
+- The Device tree templates have been tested with BSP PD21.1.0. For others BSP version those templates might not apply.
+
+
+Archive directories content details:
+------------------------------------
+.
+├── DeviceTree_templates				-> Contains the DTS templates
+│   │
+│   ├── STM32MP153A-PHYBOARD				   -> dts templates for phyBOARD-Sargas+phyCORE-STM32MP1 based on STM32MP153A SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   ├── STM32MP153A-PHYCORE				   -> dts templates for phyCORE-STM32MP1 based on STM32MP153A SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   ├── STM32MP157A-PHYBOARD				   -> dts templates for phyBOARD-Sargas+phyCORE-STM32MP1 based on STM32MP157A SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   ├── STM32MP157A-PHYCORE				   -> dts templates for phyCORE-STM32MP1 based on STM32MP157A SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   ├── STM32MP157C-PHYBOARD				   -> dts templates for phyBOARD-Sargas+phyCORE-STM32MP1 based on STM32MP157C SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   ├── STM32MP157C-PHYCORE				   -> dts templates for phyCORE-STM32MP1 based on STM32MP157C SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   ├── STM32MP157F-PHYBOARD				   -> dts templates for phyBOARD-Sargas+phyCORE-STM32MP1 based on STM32MP157F SoC
+│   │   ├── kernel					       -> template for kernel
+│   │   ├── tf-a					       -> template for tf-a
+│   │   └── u-boot					       -> template for u-boot
+│   │
+│   └── STM32MP157F-PHYCORE				   -> dts templates for phyCORE-STM32MP1 based on STM32MP157F SoC
+│       ├── kernel					       -> template for kernel
+│       ├── tf-a					       -> template for tf-a
+│       └── u-boot					       -> template for u-boot
+│   
+├── phyCORE-STM32MP1					-> Contains the CubeMX pinmux of phyCORE-STM32MP (PCM-068) only (no phyBOARD)
+│   │
+│   ├── all_phyCORE_NAND_eMMC_NOR_pins_reserved            -> all standard machines (pins used for NAND, eMMC and NOR all reserved (*))
+│   │   ├── phycore-stm32mp1-2				      -> contains STM32CubeMX project of "phycore-stm32mp1-2" (without phyBOARD)
+│   │   ├── phycore-stm32mp1-3				      -> contains STM32CubeMX project of "phycore-stm32mp1-3" (without phyBOARD)
+│   │   ├── phycore-stm32mp1-4				      -> contains STM32CubeMX project of "phycore-stm32mp1-4" (without phyBOARD)
+│   │   ├── phycore-stm32mp1-5				      -> contains STM32CubeMX project of "phycore-stm32mp1-5" (without phyBOARD)
+│   │   └── phycore-stm32mp1-6-7			      -> contains STM32CubeMX project of "phycore-stm32mp1-6" or "phycore-stm32mp1-7" (without phyBOARD-Sargas)
+│   │
+│   ├── phyCORE_with_eMMC_NOR         			   -> standard machines equipped with eMMC and NOR (pins used for NAND are free)
+│   │   ├── phycore-stm32mp1-2				      -> contains STM32CubeMX project of "phycore-stm32mp1-2" (without phyBOARD)
+│   │   ├── phycore-stm32mp1-3				      -> contains STM32CubeMX project of "phycore-stm32mp1-3" (without phyBOARD)
+│   │   └── phycore-stm32mp1-4				      -> contains STM32CubeMX project of "phycore-stm32mp1-4" (without phyBOARD)
+│   │ 
+│   ├── phyCORE_with_eMMC_without_NOR			   -> standard machines equipped with eMMC without NOR (pins used for NAND and NOR are free)
+│   │   └── phycore-stm32mp1-5				      -> contains STM32CubeMX project of "phycore-stm32mp1-5" (without phyBOARD)
+│   └── phyCORE_with_NAND_without_NOR			   -> standard machines equipped with NAND without NOR (pins used for eMMC and NOR are free)
+│       └── phycore-stm32mp1-6-7			      -> contains STM32CubeMX project of "phycore-stm32mp1-6" or "phycore-stm32mp1-7" (without phyBOARD)
+│  
+│  
+└── phyCORE-STM32MP1_with_phyBOARD-Sargas		-> Contains the CubeMX pinmux of phyCORE-STM32MP (PCM-068) + phyBOARD-Sargas (PCM-939)
+    │
+    ├── all_phyCORE_NAND_eMMC_NOR_pins_reserved            -> all standard machines (pins used for NAND, eMMC and NOR all reserved (*))
+    │   ├── phycore-stm32mp1-2_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-2"
+    │   ├── phycore-stm32mp1-3_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-3"
+    │   ├── phycore-stm32mp1-4_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-4"
+    │   ├── phycore-stm32mp1-5_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-5"
+    │   └── phycore-stm32mp1-6-7_phyboard-sargas	      -> contains STM32CubeMX project of "phycore-stm32mp1-6" or "phycore-stm32mp1-7"
+    │
+    ├── phyCORE_with_eMMC_NOR				   -> standard machines equipped with eMMC and NOR (pins used for NAND are free)
+    │   ├── phycore-stm32mp1-2_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-2"
+    │   ├── phycore-stm32mp1-3_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-3"
+    │   └── phycore-stm32mp1-4_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-4"
+    │
+    ├── phyCORE_with_eMMC_without_NOR			   -> standard machines equipped with eMMC without NOR (pins used for NAND and NOR are free)
+    │   └── phycore-stm32mp1-5_phyboard-sargas		      -> contains STM32CubeMX project of "phycore-stm32mp1-5"
+    │
+    └── phyCORE_with_NAND_without_NOR			   -> standard machines equipped with NAND without NOR (pins used for eMMC and NOR are free)
+        └── phycore-stm32mp1-6-7_phyboard-sargas	      -> contains STM32CubeMX project of "phycore-stm32mp1-6" or "phycore-stm32mp1-7"
+
+(*) ==> CubeMX projects which must be used to keep pinmux compatibility between SOMs equipped with different FLASH (NOR/eMMC/NOR):
+In those projects the pins used for the FLASH memories (FMC, QSPI and SDMMC2 signals) are all reserved (not free to use). If compatibility is not required, and if more pinmux choice is needed, the other CubeMX projects can be used.
+
