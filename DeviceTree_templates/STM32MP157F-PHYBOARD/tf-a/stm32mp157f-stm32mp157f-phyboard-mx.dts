@@ -25,7 +25,7 @@
 
 / {
 	model = "STMicroelectronics STM32MP157F-PHYBOARD STM32CubeMX board";
-	compatible = "st,stm32mp157f-phycore-stm32mp1-4-mx", "st,stm32mp157";
+	compatible = "st,stm32mp157f-phycore-stm32mp1-4_phyboard-sargas-mx", "st,stm32mp157";
 
 	/* USER CODE BEGIN root */
 	aliases {
@@ -238,6 +238,12 @@
 		CLK_LPTIM23_DISABLED
 		CLK_LPTIM45_DISABLED
 	>;
+	pll1:st,pll@0 {
+		compatible = "st,stm32mp1-pll";
+		reg = <0>;
+		cfg = < 2 80 0 1 1 PQR(1,0,0) >;
+		frac = < 0x800 >;
+	};
 	pll2:st,pll@1 {
 		compatible = "st,stm32mp1-pll";
 		reg = <1>;
