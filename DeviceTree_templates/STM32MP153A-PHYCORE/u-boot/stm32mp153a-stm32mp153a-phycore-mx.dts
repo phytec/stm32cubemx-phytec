@@ -14,7 +14,7 @@
 #include "stm32mp153.dtsi"
 #include "stm32mp15xa.dtsi"
 #include "stm32mp15xxac-pinctrl.dtsi"
-#include "stm32mp157-m4-srm.dtsi"
+#include "stm32mp15-m4-srm.dtsi"
 
 /* USER CODE BEGIN includes */
 #include <dt-bindings/mfd/st,stpmic1.h>
@@ -122,7 +122,7 @@
 		/* USER CODE BEGIN clocks */
 		/* USER CODE END clocks */
 
-#ifndef CONFIG_STM32MP1_TRUSTED
+#ifndef CONFIG_TFABOOT
 		clk_lsi: clk-lsi {
 			clock-frequency = <32000>;
 		};
@@ -139,7 +139,7 @@
 		clk_hse: clk-hse {
 			clock-frequency = <24000000>;
 		};
-#endif	/*CONFIG_STM32MP1_TRUSTED*/
+#endif	/*CONFIG_TFABOOT*/
 	};
 
 }; /*root*/
@@ -729,8 +729,7 @@
 	                <&vdev0vring1>, <&vdev0buffer>;
         interrupt-parent = <&exti>;
         interrupts = <68 1>;
-        interrupt-names = "wdg";
-        recovery;
+        wakeup-source;
 	/* USER CODE END m4_rproc */
 
 	m4_system_resources{
@@ -806,6 +805,8 @@
         phy-mode = "rgmii-id";
         max-speed = <1000>;
         phy-handle = <&phy0>;
+        nvmem-cells = <&ethernet_mac_address>;
+        nvmem-cell-names = "mac-address";
         st,eth-clk-sel = "true";
 	clock-names = "stmmaceth",
 		      "mac-clk-tx",
@@ -1533,6 +1534,14 @@
 };
 
 /* USER CODE BEGIN addons */
+&cpu0{
+	cpu-supply = <&vddcore>;
+};
+
+&cpu1{
+	cpu-supply = <&vddcore>;
+};
+
 &sram{
 
 	dma_pool:dma_pool@0{

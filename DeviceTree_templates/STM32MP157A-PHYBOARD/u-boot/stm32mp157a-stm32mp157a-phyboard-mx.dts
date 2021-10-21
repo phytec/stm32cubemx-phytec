@@ -14,7 +14,7 @@
 #include "stm32mp157.dtsi"
 #include "stm32mp15xa.dtsi"
 #include "stm32mp15xxac-pinctrl.dtsi"
-#include "stm32mp157-m4-srm.dtsi"
+#include "stm32mp15-m4-srm.dtsi"
 
 /* USER CODE BEGIN includes */
 #include <dt-bindings/mfd/st,stpmic1.h>
@@ -27,7 +27,7 @@
 
 / {
 	model = "STMicroelectronics STM32MP157A-PHYBOARD STM32CubeMX board";
-	compatible = "st,stm32mp157a-phycore-stm32mp1-2-mx", "st,stm32mp157";
+	compatible = "st,stm32mp157a-phycore-stm32mp1-2_phyboard-sargas-mx", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -113,6 +113,15 @@
 		stdout-path = "serial0:115200n8";
 	};
 
+	clocks {
+		clk_ext_camera: clk-ext-camera {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <27000000>;
+			status = "disabled";
+		};
+	};
+
         sound {
                 compatible = "audio-graph-card";
                 label = "STM32MP1-PHYCORE";
@@ -161,38 +170,20 @@
 		status = "okay";
 	};
 
-        panel_rgb: panel {
-                compatible = "edt,etm0700g0edh6";
-
-                status = "okay";
-                backlight = <&panel_backlight>;
-		enable-gpios = <&gpioa 4 GPIO_ACTIVE_HIGH>;		
-
-                port {
-                        panel_in_rgb: endpoint {
-                                remote-endpoint = <&ltdc_ep0_out>;
-                        };
-                };
-        };
-
-        panel_backlight: panel-backlight {
-                compatible = "pwm-backlight";
-		pwms = <&pwm_5 3 100000>;
-
-		power-supply = <&v3v3>;		
-
-		brightness-levels = <0 4 8 16 32 64 128 255>;
-		default-brightness-level = <6>;
-                status = "okay";
-        };
-
+	reg_vcc_cam: regulator-cam {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_cam";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		status = "disabled";
+	};
 	/* USER CODE END root */
 
 	clocks {
 		/* USER CODE BEGIN clocks */
 		/* USER CODE END clocks */
 
-#ifndef CONFIG_STM32MP1_TRUSTED
+#ifndef CONFIG_TFABOOT
 		clk_lsi: clk-lsi {
 			clock-frequency = <32000>;
 		};
@@ -209,7 +200,7 @@
 		clk_hse: clk-hse {
 			clock-frequency = <24000000>;
 		};
-#endif	/*CONFIG_STM32MP1_TRUSTED*/
+#endif	/*CONFIG_TFABOOT*/
 	};
 
 }; /*root*/
@@ -799,8 +790,7 @@
 	                <&vdev0vring1>, <&vdev0buffer>;
         interrupt-parent = <&exti>;
         interrupts = <68 1>;
-        interrupt-names = "wdg";
-        recovery;
+        wakeup-source;
 	/* USER CODE END m4_rproc */
 
 	m4_system_resources{
@@ -827,6 +817,13 @@
 
 	/* USER CODE BEGIN bsec */
 	/* USER CODE END bsec */
+};
+
+&crc1{
+	status = "okay";
+
+	/* USER CODE BEGIN crc1 */
+	/* USER CODE END crc1 */
 };
 
 &dcmi{
@@ -876,6 +873,8 @@
         phy-mode = "rgmii-id";
         max-speed = <1000>;
         phy-handle = <&phy0>;
+        nvmem-cells = <&ethernet_mac_address>;
+        nvmem-cell-names = "mac-address";
         st,eth-clk-sel = "true";
 	clock-names = "stmmaceth",
 		      "mac-clk-tx",
@@ -909,6 +908,29 @@
                 };
         };
 	/* USER CODE END ethernet0 */
+};
+
+&fmc{
+	u-boot,dm-pre-reloc;
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&fmc_pins_mx>;
+	pinctrl-1 = <&fmc_sleep_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN fmc */
+	nand-controller@4,0 {
+		status = "okay";
+
+		nand: nand@0 {
+			reg = <0>;
+			nand-on-flash-bbt;
+			nand-ecc-strength = <4>;
+			nand-ecc-step-size = <512>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+		};
+	};
+	/* USER CODE END fmc */
 };
 
 &gpu{
@@ -1216,6 +1238,7 @@
         i2c4_rtc: rtc@52 {
                 compatible = "microcrystal,rv3028";
                 reg = <0x52>;
+                enable-level-switching-mode;
                 status = "okay";
         };
 	/* USER CODE END i2c4 */
@@ -1243,15 +1266,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
-        port {
-                #address-cells = <1>;
-                #size-cells = <0>;
-
-                ltdc_ep0_out: endpoint@0 {
-                        reg = <0>;
-                        remote-endpoint = <&panel_in_rgb>;
-                };
-        };
 	/* USER CODE END ltdc */
 };
 
@@ -1350,7 +1364,6 @@
 		status = "okay";
 
 		/* USER CODE BEGIN sai2a */
-                compatible = "st,stm32-sai-sub-a";
 		dma-names = "rx";
 		st,sync = <&sai2b 2>;
 		clocks = <&rcc SAI2_K>, <&sai2b>;
@@ -1372,11 +1385,8 @@
 		status = "okay";
 
 		/* USER CODE BEGIN sai2b */
-		compatible = "st,stm32-sai-sub-b";
                 #clock-cells = <0>;
                 dma-names = "tx";
-                clocks = <&rcc SAI2_K>;
-                clock-names = "sai_ck";
 
                 sai2b_port: port {
                         sai2b_endpoint: endpoint {
@@ -1588,6 +1598,14 @@
 };
 
 /* USER CODE BEGIN addons */
+&cpu0{
+	cpu-supply = <&vddcore>;
+};
+
+&cpu1{
+	cpu-supply = <&vddcore>;
+};
+
 &sram{
 
 	dma_pool:dma_pool@0{
