@@ -1245,7 +1245,6 @@
         reg = <0x58003000 0x1000>, <0x70000000 0x4000000>;
         #address-cells = <1>;
         #size-cells = <0>;
-        status = "disabled";
 
         flash0: w25q128@0 {
                 compatible = "winbond,w25q128", "jedec,spi-nor", "spi-flash";
