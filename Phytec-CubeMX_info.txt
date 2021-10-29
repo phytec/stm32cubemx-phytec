@@ -1,20 +1,26 @@
-Archive name:
+Package name:
 -------------
-PCM-068-CubeMX-V2.zip
+PCM-068-CubeMX-PD21.2.0.zip
 
 
 Date of creation:
 -----------------
-05.03.2021
+29.10.2021
 
 
-Archive content:
+Package content:
 ----------------
-- STM32CubeMX project-files (.ioc) created with STM32CubeMX Version 6.1.1 => in directories "phyCORE-STM32MP1" and "phyCORE-STM32MP1_with_phyBOARD-Sargas"
-- Device Tree sources templates (.dts, .dtsi) based on BSP PD21.1.0 => in directory "DeviceTree_templates"
+- STM32CubeMX project-files (.ioc) for phyCORE-STM32MP1 and phyBOARD-Sargas Hardware platforms. 
+  => in directories "phyCORE-STM32MP1" and "phyCORE-STM32MP1_with_phyBOARD-Sargas"
+  Those projects are best configured for STM32CubeMX v6.2.1 usage:
+   - the FW_MP1 package is set to V1.4.0
+   - the openSTLinux setting is consequently set automatically (in CubeMX tool) to "openstlinux-5.10-dunfell-mp1-21-03-31" manifest
+
+- Device Tree sources templates (.dts, .dtsi) based on PHYTEC BSP PD21.2.0.
+  => in directory "DeviceTree_templates"
 
 
-Archive Purpose:
+Package Purpose:
 ----------------
 The intention of those STM32CubeMX project files is to give customers the ability to use STM32CubeMX for their custom-specific pinmux conceptions. Those projects also give the ability to use the tool for Software automatic code generation.
 
@@ -33,7 +39,7 @@ phyCORE-STM32MP1 (+ phyBOARD-Sargas) are declined in standard "machines" (SOM eq
 - phycore-stm32mp-6: phyCORE-STM32MP1+phyBOARD-Sargas, stm32mp153aac (@650Mhz MPU, no 3D GPU), 512MB RAM, 512MB NAND
 - phycore-stm32mp-7: phyCORE-STM32mp1+phyBOARD-Sargas, stm32mp153aac (@650Mhz MPU, no 3D GPU), 512MB RAM, 128MB NAND
 
-Note: there is only one declination of the phyBOARD-Sargas. That's why, the machines differ only because of the phyCORE-STM32MP1 different declinations.
+Note: Currently, there is only one version of the phyBOARD-Sargas. That's why, the machines differ only because of the phyCORE-STM32MP1 different declinations.
 
 
 Device Tree sources automatic generation and provided dts templates:
@@ -42,7 +48,7 @@ The STM32CubeMX can be used to generated the Device Tree files (Cortex-A7) or ST
 As the generated device tree sources (.dts) do not contain all the necessary device tree properties (dependent on BSP drivers), some manual code ("User code") needs to be added in specific sections of the generated files.
 Please refer to the BSP manual for more details: https://www.phytec.de/produkte/system-on-modules/phycore-stm32mp1/#downloads/ (BSP manual is in section "Software / Yocto + Linux BSP-Releases")
 
-To generate the "ready to build" Device Tree of the above machines (i.e ".dts" that can be directly build without any modifications), we provide device tree templates that already contain this "user code" that is added automatically to the generated dts files.
+To generate the "ready to build" Device Tree of the above machines (i.e ".dts" that can be directly build without any modifications), we provide device tree templates that already contain the "user code" sections that is added automatically to the generated dts files.
 
 To force STM32CubeMX to use those templates during the code generation, you must copy the provided DTS templates in the following directory of your CubeMX intsallation tool:
 "/db/templates/DeviceTree/dtsBoards/STM32MP1"
@@ -51,7 +57,7 @@ To force STM32CubeMX to use those templates during the code generation, you must
 
 Notes:
 - The STM32CubeMX code generator will automatically make the link with the corresponding template using the SoC Model line (i.e "STM32MP15xx") and the "board" name paramater (set to "STM32MP15xx-PHYCORE" or "STM32MP15xx-PHYBOARD" in our .ioc project).
-- The Device tree templates have been tested with BSP PD21.1.0. For others BSP version those templates might not apply.
+- The Device tree templates on this archive are compatible with BSP PD21.2.0. For others BSP version those templates might not apply.
 
 
 Archive directories content details:
@@ -139,6 +145,6 @@ Archive directories content details:
     └── phyCORE_with_NAND_without_NOR			   -> standard machines equipped with NAND without NOR (pins used for eMMC and NOR are free)
         └── phycore-stm32mp1-6-7_phyboard-sargas	      -> contains STM32CubeMX project of "phycore-stm32mp1-6" or "phycore-stm32mp1-7"
 
-(*) ==> CubeMX projects which must be used to keep pinmux compatibility between SOMs equipped with different FLASH (NOR/eMMC/NOR):
+(*) ==> CubeMX projects which must be used to keep pinmux compatibility between SOMs equipped with different FLASH (NAND/eMMC/NOR):
 In those projects the pins used for the FLASH memories (FMC, QSPI and SDMMC2 signals) are all reserved (not free to use). If compatibility is not required, and if more pinmux choice is needed, the other CubeMX projects can be used.
 
