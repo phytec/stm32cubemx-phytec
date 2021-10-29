@@ -1,0 +1,63 @@
+Release Note of PCM-068-CubeMX PHYTEC packages
+==============================================
+
+PCM-068-CubeMX-PD21.2.0.zip:
+============================
+This package has been created from previous archive (PCM-068-CubeMX-PD21.1.0.zip) adding some changes described below.
+
+Changes:
+--------
+
+  - CubeMX project: 
+
+     * Disable QUADSPI IP for some phycore-stm32mp1-5 projects:
+       QUADSPI must be disabled for the phycore-stm32mp1-5 machines (no SPI NOR). It was not the case for some of those projects, so we correct this.
+
+     * Update MP1 Firmware Package to V1.4.0
+        - Update all projects using CubeMX v6.2.1:
+          - FW_MP1 (MP1 MCU firmware package) is migrated to V1.4.0.
+          - Doing this migration, openstlinux setting change automatically (in STM32CubeMX tool) to "openstlinux-5.10-dunfell-mp1-21-03-31" manifest.
+
+     * Enabled CRC1 HW block by default for all projects as done in upstream device tree.
+
+
+  - DeviceTree_templates:
+
+     * u-boot and kernel: remove QSPI disabled status:
+       The QSPI status node must me removed from User code section. The status to use is the one set automatically by CubeMX.
+
+     * tf-a: update the automatic code output
+        - add PPL1 config
+        - update compatible board name
+        - FMC node
+       (No functional modifications as no user code sections are touched).
+
+     * u-boot: align with "2020.10-phy1" PHYTEC u-boot-stm32mp upstream version
+
+     * kernel: align with "5.10-phy1" PHYTEC linux-stm32mp upstream version
+
+
+
+PCM-068-CubeMX-PD21.1.1.zip:
+============================
+This package has been created from previous archive (PCM-068-CubeMX-V2.zip) adding some changes described below.
+
+Changes:
+--------
+
+- DeviceTree_templates: kernel: rtc-rv3028: enable level switching mode
+  Enabling this driver mode is necessary to backup the rtc when power supply is off.
+  This allow to align device tree output with PHYTEC BSP PD21.1.1.
+    
+
+
+PCM-068-CubeMX-V2.zip (to use with BSP PD21.1.0):
+=================================================
+Package creation:
+
+- STM32CubeMX project-files (.ioc) created with STM32CubeMX Version v6.1.1:
+  * MP1 MCU Firmware Package set to V1.3.0
+  * openstlinux setting is set automatically (in STM32CubeMX tool) to "openstlinux-5.4-dunfell-mp1-20-11-12" manifest
+
+- Device Tree sources templates (.dts, .dtsi) based on PHYTEC BSP PD21.1.0
+
