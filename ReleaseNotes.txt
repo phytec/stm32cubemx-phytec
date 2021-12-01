@@ -1,6 +1,22 @@
 Release Note of PCM-068-CubeMX PHYTEC packages
 ==============================================
 
+PCM-068-CubeMX-PD21.2.1.zip:
+============================
+This package has been created from previous archive (PCM-068-CubeMX-PD21.2.0.zip) adding a change described below.
+
+Changes:
+--------
+  - DeviceTree_templates:
+
+     * u-boot: align with "2020.10-phy2" PHYTEC u-boot-stm32mp upstream version (PD21.2.1).
+       This alignment allows to fix a u-boot ethernet issue present in "2020.10-phy1" (not functionnal).
+       In this u-boot version, "st,eth-clk-sel" is not aligned with the kernel device tree and must
+       contains underscore instead of dash.
+       So we add this property with correct typo in the "-mx-u-boot.dtsi" files and this fix the issue.
+
+
+
 PCM-068-CubeMX-PD21.2.0.zip:
 ============================
 This package has been created from previous archive (PCM-068-CubeMX-PD21.1.0.zip) adding some changes described below.
@@ -8,7 +24,7 @@ This package has been created from previous archive (PCM-068-CubeMX-PD21.1.0.zip
 Changes:
 --------
 
-  - CubeMX project: 
+  - CubeMX project:
 
      * Disable QUADSPI IP for some phycore-stm32mp1-5 projects:
        QUADSPI must be disabled for the phycore-stm32mp1-5 machines (no SPI NOR). It was not the case for some of those projects, so we correct this.
@@ -48,7 +64,7 @@ Changes:
 - DeviceTree_templates: kernel: rtc-rv3028: enable level switching mode
   Enabling this driver mode is necessary to backup the rtc when power supply is off.
   This allow to align device tree output with PHYTEC BSP PD21.1.1.
-    
+
 
 
 PCM-068-CubeMX-V2.zip (to use with BSP PD21.1.0):
