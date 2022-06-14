@@ -258,7 +258,6 @@
 
 &ethernet0 {
         u-boot,dm-pre-reloc;
-        st,eth_clk_sel = "true";
 };
 /* USER CODE END addons */
 
