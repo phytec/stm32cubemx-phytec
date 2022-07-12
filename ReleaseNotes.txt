@@ -1,7 +1,7 @@
 Release Note of STM32CubeMX-phytec package
 ===========================================
 
-STM32CubeMX-phytec-PD22.1.0.zip - 2022-07-06:
+STM32CubeMX-phytec-PD22.1.0.zip - 2022-07-12:
 =============================================
 This package has been created from previous archive (STM32CubeMX-phytec-PD21.2.1.zip) adding the changes described below.
 

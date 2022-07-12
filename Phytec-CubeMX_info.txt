@@ -7,7 +7,7 @@ STM32CubeMX-phytec-PD22.1.0.zip
 -----------------
 Date of creation:
 -----------------
-2022-07-11
+2022-07-12
 
 
 ----------------
@@ -55,6 +55,15 @@ Notes:
 Others machines are currently not standards, and so, we do not support them within our BSP (not tested).
 3) Our Yocto BSP is only fully tested using our upstream device tree (that can be found in our PHYTEC git: git.phytec.de).
 So please, be aware that using the CubeMX generated device tree for the phyCORE-STM32MP1/phyBOARD-Sargas is under your responsibility.
+
+
+----------------------------------------------------------------------------------------------------------------------
+Procedure to create your own CubeMX project based on our phyCORE-STM32MP1 SOM (and eventually on our phyBOARD-Sargas):
+----------------------------------------------------------------------------------------------------------------------
+1) Copy one of the project (.ioc) that we provide (the one which fit the best your need) and rename the file to match your project: <project>.ioc. For example: myboard.ioc.
+Please refer to the last section "Archive directories content details" of this note to know how to choose the project that fit the best your need.
+
+2) Open this project with STM32CubeMX. Then save it. (the CubeMX project name is based on the .ioc file name and is updated as soon as you open and save the project).
 
 
 ---------------------------------------------------------------------
