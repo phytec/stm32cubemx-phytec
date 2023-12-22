@@ -1,0 +1,59 @@
+-------------
+Package name:
+-------------
+STM32CubeMX-phytec-STM32MP13x.zip
+
+-----------------
+Date of creation:
+-----------------
+2023-04-01
+
+----------------
+Package content:
+----------------
+STM32CubeMX project-files (.ioc) for STM32MP13x phyBOARD-Segin PHYTEC Hardware platform.
+
+This project was created with STM32CubeMX Version v6.7.0.
+ => Consequently, OpenSTlinux setting is set automatically (in STM32CubeMX tool) to "openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23" manifest
+    This is the openSTlinux version used in the STM32MP13x PHYTEC BSP PD23.1.0.
+    OpenSTLinux setting is only important when using the device tree code generation CubeMX tool.
+    If you need to use a more recent version of OpenSTLinux, choose the "Migrate" option when opening the project.
+
+----------------
+Package Purpose:
+----------------
+The intention of those STM32CubeMX project files is to give customers the ability to use STM32CubeMX for their custom-specific pinmux conceptions.
+Those projects also give the ability to use the STM32CubeMX tool for Software automatic code generation (device tree files).
+In that case, note that the generated device tree code is incomplete ("User code" sections needs to be filled manually).
+Also, the DDR generated configuration file DO NOT reflects the BSP DDR configuration.
+
+The files contain the fixed pinmux, as well as ST32MP13x system clocks used in our BSP:
+- phyCORE-STM32MP13x + phyBOARD-Segin (PB-0230-x)
+
+----------------------
+Hardware declinations:
+----------------------
+phyCORE-STM32MP13x + phyBOARD-Segin are declined in standard Yocto "machines" (SOM equipped with different STM32MP13x SoC product line and/or different RAM/FLASH memory):
+- phyboard-segin-stm32mp13x-1.conf: PB-02030-Muster01.A0 (phyBOARD-Segin full featured STM32MP135F @650Mhz/@1Ghz, 1GiB RAM, 8GiB eMMC, 4kB EEPROM)
+- phyboard-segin-stm32mp13x-2.conf: PB-02030-001.A0 (phyBOARD-Segin full featured STM32MP135F @650Mhz/@1Ghz, 512MB RAM, 4GiB eMMC, 4kB EEPROM)
+
+As there is not differences in the pin muxing configuration for those two Hardware (and we don't use the DDR parametrs from CubeMX), we only provide one CubeMX file for both board configuration:
+"phyboard-segin-stm32mp13x-x.ioc"
+
+The DDR size parameters in this project reflect "phyboard-segin-stm32mp13x-1" machine (1GiB RAM). SOC version is "STM32MP135F".
+
+--------------------------------------------------------------------------------------------
+Procedure to create your own CubeMX project based on our STM32MP13x-phyBOARD-Segin projects:
+--------------------------------------------------------------------------------------------
+1) Copy one of the project (.ioc) that we provide (the one which fit your need) and rename the file to match your project: <project>.ioc. For example: myboard.ioc.
+
+2) Open this project with STM32CubeMX. Then save it. (the CubeMX project name is based on the .ioc file name and is updated as soon as you open and save the project).
+
+3) Modify the project as you want (activation/deactivation of some IP, pinmuxing modifications).
+But note that some pins are reserved for SOM functionnality only (DDR, eMMC, PHY Ethernet), and the pin mux should not be modified for those pins !
+To identify those pins reserved for the SOM functionnality, we have identify them with a "Signal name" starting with "SOM_".
+
+------------------------------------
+Archive directories content details:
+------------------------------------
+phyboard-segin-stm32mp13x-x.ioc                      -> STM32CubeMX project of "phyboard-segin-stm32mp13x-x"
